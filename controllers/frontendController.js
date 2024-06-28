@@ -3,6 +3,9 @@ const path = require("path");
 const logsign = function(req,res){
     res.sendFile(path.join(__dirname,"..","frontEndFiles","LogInSignUp.html"));
 }
+const mainpage = function(req,res){
+    res.sendFile(path.join(__dirname,"..","frontEndFiles","mainPage.html"));
+}
 
 const errorhtml = function(req,res){
     res.status(404);//not found
@@ -17,4 +20,4 @@ const errorhtml = function(req,res){
     }
 }
 
-module.exports = {logsign,errorhtml};
+module.exports = {logsign,errorhtml,mainpage};
