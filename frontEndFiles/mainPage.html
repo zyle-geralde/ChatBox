@@ -37,7 +37,6 @@
         }
 
         .leftHandler {
-
             display: flex;
             flex-direction: column;
             width: 25%;
@@ -53,13 +52,13 @@
         .leftHandlerTop {
 
             width: 25%;
-            height: 100%;
+            height: 60px;
         }
 
         .rightHandlerTop {
             background-color: rgb(11, 32, 62);
             width: 75%;
-            height: 100%;
+            height: 60px;
         }
 
         .userCont {
@@ -80,6 +79,7 @@
         .profilePic {
             border-style: solid;
             border-color: rgb(16, 44, 87);
+            border-color:rgb(11, 32, 62);
         }
 
         .profilePic:hover {
@@ -113,6 +113,7 @@
             display: flex;
             flex-direction: row;
             margin-top: 20px;
+            margin-bottom: 5px;
         }
 
         .searchBar {
@@ -129,8 +130,11 @@
         }
 
         .userNav {
-            overflow-y: scroll;
+            height: 100%;
+            overflow-y:auto;
+            scrollbar-width: thin;
             flex: 1;
+            padding-bottom: 10px;
         }
 
         @media (max-width:425px) {
@@ -159,12 +163,15 @@
             .MyuserName {
                 display: none;
             }
+            .userNameList{
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="mianCont">
+    <div class="mianCont" style="min-height: 290px;">
         <div class="d-flex flex-direction-row" style="width: 100%; height: 60px;">
             <div class="leftHandlerTop d-flex flex-direction-row justify-content-center">
                 <img src="./image/bear-6887694_1280.png"
@@ -186,7 +193,7 @@
                 </button>
             </div>
         </div>
-        <div class="d-flex flex-direction-row" style="width: 100%; flex: 1;">
+        <div class="d-flex flex-direction-row" style="width: 100%; flex: 1; height: 124.4px;">
             <div class="leftHandler">
                 <div class="searchCont">
                     <div class="backBut">
@@ -197,31 +204,121 @@
                 <div class="userNav">
                     <div>
                         <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
-                            style="overflow:hidden;width: 90%; margin-bottom: 9px; background-color: red; margin: auto;
-                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px;">
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
                             <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
-                    margin-right: 10px; margin-left: 10px; cursor: pointer;" class="MyprofilePic">
-                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
-                                class="MyuserName">
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
                                 POITUYlksdfjklsajg
                             </div>
                         </div>
                     </div>
 
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
 
                     <div>
                         <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
-                            style="overflow:hidden;width: 90%; margin-bottom: 9px; background-color: red; margin: auto;
-                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px;">
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
                             <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
-                    margin-right: 10px; margin-left: 10px; cursor: pointer;" class="MyprofilePic">
-                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
-                                class="MyuserName">
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px; background-color:rgb(88, 109, 142); border-radius: 5px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            class = "userNameList">
                                 POITUYlksdfjklsajg
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="myUser d-flex flex-direction-row align-items-center justify-content-center"
                     style="overflow:hidden;width: 100%; margin-bottom: 9px;">
                     <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
