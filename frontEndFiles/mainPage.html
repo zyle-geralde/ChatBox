@@ -20,16 +20,226 @@
     <style>
         body {
             height: 100vh;
+            background-color: rgb(234, 219, 200);
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
         }
 
+        .mianCont {
+            height: 90%;
+            width: 90%;
+            background-color: rgb(16, 44, 87);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .leftHandler {
+
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+            height: 100%;
+        }
+
+        .rightHandler {
+            background-color: rgb(11, 32, 62);
+            width: 75%;
+            height: 100%;
+        }
+
+        .leftHandlerTop {
+
+            width: 25%;
+            height: 100%;
+        }
+
+        .rightHandlerTop {
+            background-color: rgb(11, 32, 62);
+            width: 75%;
+            height: 100%;
+        }
+
+        .userCont {
+            height: 100%;
+        }
+
+        .AppName {
+            font-family: Helvetica;
+            font-size: 35px;
+            margin-left: 10px;
+            color: rgb(254, 250, 246);
+            margin-top: 9px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profilePic {
+            border-style: solid;
+            border-color: rgb(16, 44, 87);
+        }
+
+        .profilePic:hover {
+            border-color: rgb(234, 219, 200);
+            transition: 0.2s;
+        }
+
+        .profilePic:active {
+            border-color: rgb(16, 44, 87);
+        }
+
+        .MyprofilePic {
+            border-style: solid;
+            border-color: rgb(16, 44, 87);
+        }
+
+        .MyprofilePic:hover {
+            border-color: rgb(234, 219, 200);
+            transition: 0.2s;
+        }
+
+        .MyprofilePic:active {
+            border-color: rgb(16, 44, 87);
+        }
+
+        .logoPic {
+            margin-left: 10px;
+        }
+
+        .searchCont {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+        }
+
+        .searchBar {
+            font-size: 12px;
+            margin-right: 10px;
+        }
+
+        .backBut {
+            font-size: 18px;
+            color: rgb(254, 250, 246);
+            font-weight: bolder;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+        .userNav {
+            overflow-y: scroll;
+            flex: 1;
+        }
+
+        @media (max-width:425px) {
+            .AppName {
+                display: none;
+            }
+
+            .logoPic {
+                margin-left: 5px;
+            }
+
+            .searchBar {
+                font-size: 12px;
+                margin-right: 5px;
+                padding: 6px 6px;
+            }
+
+            .backBut {
+                font-size: 18px;
+                color: rgb(254, 250, 246);
+                font-weight: bolder;
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+
+            .MyuserName {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <div class="mianCont">
+        <div class="d-flex flex-direction-row" style="width: 100%; height: 60px;">
+            <div class="leftHandlerTop d-flex flex-direction-row justify-content-center">
+                <img src="./image/bear-6887694_1280.png"
+                    style="border-radius: 1000px; height: 50px; width: 50px; margin-top: 9px;" class="logoPic">
+                <div class="AppName">CHATBOX</div>
+            </div>
+            <div class="rightHandlerTop d-flex flex-direction-row align-items-center justify-content-between">
+                <div class="profileCont d-flex flex-direction-row align-items-center"
+                    style="overflow:hidden;width: 850px;">
+                    <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;" class="profilePic">
+                    <div
+                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;">
+                        POITUYJAKMLCkdlakd
+                    </div>
+                </div>
+                <button class="btn btn-danger" style="margin-left: 10px; margin-right: 10px;">
+                    ⛣
+                </button>
+            </div>
+        </div>
+        <div class="d-flex flex-direction-row" style="width: 100%; flex: 1;">
+            <div class="leftHandler">
+                <div class="searchCont">
+                    <div class="backBut">
+                        ←
+                    </div>
+                    <input class="form-control searchBar">
+                </div>
+                <div class="userNav">
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; background-color: red; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;" class="MyprofilePic">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
+                                class="MyuserName">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
 
+
+                    <div>
+                        <div class="myUserList d-flex flex-direction-row align-items-center justify-content-center"
+                            style="overflow:hidden;width: 90%; margin-bottom: 9px; background-color: red; margin: auto;
+                            padding-top: 5px; padding-bottom: 5px; margin-top: 10px;">
+                            <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;" class="MyprofilePic">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
+                                class="MyuserName">
+                                POITUYlksdfjklsajg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="myUser d-flex flex-direction-row align-items-center justify-content-center"
+                    style="overflow:hidden;width: 100%; margin-bottom: 9px;">
+                    <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
+                margin-right: 10px; margin-left: 10px; cursor: pointer;" class="MyprofilePic">
+                    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
+                        class="MyuserName">
+                        POITUYlksdfjklsajgklsndfjanslfdjljljasdklf
+                    </div>
+                </div>
+            </div>
+            <div class="rightHandler">
+            </div>
+        </div>
+
+    </div>
 </body>
 <script>
-    $(document).ready(function(e){
+    $(document).ready(function (e) {
 
     })
 </script>
