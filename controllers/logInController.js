@@ -21,7 +21,7 @@ const logFunc = async function(req,res){
         var comparedPassword = await bcrypt.compare(pword,foundUser.password);
 
         if(comparedPassword){
-            res.status(200).json({"success":true});//200 - OK(successful)
+            res.status(200).json({"imageSrc":foundUser.imageSrc,"success":true});//200 - OK(successful)
         }
         else{
             return res.status(401).json({"message":"Incorrect Password"});//401 - Unauthorized
