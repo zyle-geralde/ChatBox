@@ -43,6 +43,7 @@ app.use(express.static(path.join(__dirname,"frontEndFiles")));
 
 app.use("/signup",require("./routers/api/signUpRoute.js"));
 app.use("/login",require("./routers/api/logInRoute.js"));
+app.use("/uploadProfPic",require("./routers/api/uploadProf.js"));
 
 app.use("/",require("./routers/LogInSign.js"));
 

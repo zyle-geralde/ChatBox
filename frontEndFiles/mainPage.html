@@ -228,6 +228,11 @@
             margin-right: 20px;
             font-size: 12px;
         }
+        .changeProf{
+            cursor: pointer; 
+            background-color: white; 
+            border-radius: 1000px;
+        }
 
         @media (max-width:425px) {
             .AppName {
@@ -351,8 +356,9 @@
                 <div class="myUser d-flex flex-direction-row align-items-center justify-content-center"
                     style="overflow:hidden;width: 100%; margin-bottom: 9px;">
                     <div style="display: flex; flex-direction: column; margin-left: 10px;">
+                        <input type = "file" accept = "image/jpeg, image/png" style="display: none;" class = "pickProf">
                         <div style="cursor: pointer;">📝</div>
-                        <div style="cursor: pointer; background-color: white; border-radius: 1000px;">👤</div>
+                        <div class = "changeProf">👤</div>
                     </div>
                     <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
                 margin-right: 10px; cursor: pointer;" class="MyprofilePic">
@@ -531,6 +537,42 @@
             var formatedTime = now.toLocaleTimeString("en-US", localTime);
             md.innerText = `${formatedDate},  ${formatedTime}`
         }
+
+        $(".changeProf").click(function(e){
+            $(".pickProf").click();
+            /*var showBox = document.querySelector(".pickProf");
+            showBox.click();*/
+
+
+        })
+        $(".pickProf").change(function(e){
+            const file = (e.target.files)[0]
+            if(file){
+                const formData = new FormData();
+                formData.append('profilePic',file);
+
+                $.ajax({
+                    url:"/uploadProfPic",
+                    method:"POST",
+                    data:formData,
+                    processData:false,
+                    contentType:false,
+                    success:function(data){
+                        console.log(data)
+                    },
+                    error:function(xhr, textStatus, errorThrown){
+                        if(xhr.status == 400){
+                            console.log(xhr.responseJSON.message)
+                        }
+                    }
+                })
+            }
+            else{
+                console.log("none")
+            }
+            
+        })
+
 
     })
 </script>
