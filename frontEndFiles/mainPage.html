@@ -551,6 +551,7 @@
             if(file){
                 const formData = new FormData();
                 formData.append('profilePic',file);
+                formData.append('username',uname);
 
                 $.ajax({
                     url:"/uploadProfPic",
