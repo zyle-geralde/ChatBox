@@ -493,18 +493,20 @@
     $(document).ready(function (e) {
         var uname = localStorage.getItem("username");
         var uImage = localStorage.getItem("image");
-        if(!uname){
+        console.log(localStorage);
+        if(!uname || !uImage){
             window.location.href = "/";
+        }
+        if(uImage != "none"){
+            var changePhoto = document.querySelector(".MyprofilePic");
+            changePhoto.src = `../serverImages/${uImage}`;
+            //$(".MyprofilePic").attr('src',`../serverImages/${uImage}`)
+        }
+        else{
+
         }
 
         $(".MyuserName").text(uname)
-
-        if(uImage == "none"){
-            console.log("no")
-        }
-        else{
-            console.log("ok")
-        }
 
         var allUserList = document.querySelectorAll(".myUserList");
 
@@ -561,13 +563,8 @@
                     contentType:false,
                     success:function(data){
                         console.log(data)
-                        var srcProfile = data.src;
-                        var username = uname;
-
-                        //self invked function or Immediately invoked function;
-                        (function(usernameP,srcProfileP){
-                            
-                        })(uname,srcProfile);
+                        localStorage.setItem("image",data.src);
+                        console.log(localStorage);
                     },
                     error:function(xhr, textStatus, errorThrown){
                         if(xhr.status == 400){

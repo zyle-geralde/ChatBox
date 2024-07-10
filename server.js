@@ -40,6 +40,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname,"frontEndFiles")));
+app.use('/serverImages', express.static('serverImages'));
 
 app.use("/signup",require("./routers/api/signUpRoute.js"));
 app.use("/login",require("./routers/api/logInRoute.js"));

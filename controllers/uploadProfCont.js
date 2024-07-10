@@ -13,7 +13,7 @@ const uploadCont = async function(req,res){
         if(foundUser){
             foundUser.imageSrc = uploadPicme.newFileMe();
             await foundUser.save();
-            res.status(200).json({"message":"File uploaded Successfuly"});
+            res.status(200).json({"message":"File uploaded Successfuly","src":uploadPicme.newFileMe()});
         }
         else{
             return res.status(404).json({"message":"User Not Found"});
