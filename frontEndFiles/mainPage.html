@@ -493,6 +493,9 @@
     $(document).ready(function (e) {
         var uname = localStorage.getItem("username");
         var uImage = localStorage.getItem("image");
+        if(!uname){
+            window.location.href = "/";
+        }
 
         $(".MyuserName").text(uname)
 
@@ -540,8 +543,6 @@
 
         $(".changeProf").click(function(e){
             $(".pickProf").click();
-            /*var showBox = document.querySelector(".pickProf");
-            showBox.click();*/
 
 
         })
@@ -559,6 +560,13 @@
                     contentType:false,
                     success:function(data){
                         console.log(data)
+                        var srcProfile = data.src;
+                        var username = uname;
+
+                        //self invked function or Immediately invoked function;
+                        (function(usernameP,srcProfileP){
+                            
+                        })(uname,srcProfile);
                     },
                     error:function(xhr, textStatus, errorThrown){
                         if(xhr.status == 400){
