@@ -186,10 +186,12 @@
             cursor: pointer;
             transition: 0.1s;
         }
-        .sendCont:hover{
+
+        .sendCont:hover {
             font-size: 22px;
         }
-        .sendCont:active{
+
+        .sendCont:active {
             font-size: 20px;
         }
 
@@ -235,9 +237,10 @@
             margin-right: 20px;
             font-size: 12px;
         }
-        .changeProf{
-            cursor: pointer; 
-            background-color: white; 
+
+        .changeProf {
+            cursor: pointer;
+            background-color: white;
             border-radius: 1000px;
         }
 
@@ -363,9 +366,9 @@
                 <div class="myUser d-flex flex-direction-row align-items-center justify-content-center"
                     style="overflow:hidden;width: 100%; margin-bottom: 9px;">
                     <div style="display: flex; flex-direction: column; margin-left: 10px;">
-                        <input type = "file" accept = "image/jpeg, image/png" style="display: none;" class = "pickProf">
+                        <input type="file" accept="image/jpeg, image/png" style="display: none;" class="pickProf">
                         <div style="cursor: pointer;">📝</div>
-                        <div class = "changeProf">👤</div>
+                        <div class="changeProf">👤</div>
                     </div>
                     <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
                 margin-right: 10px; cursor: pointer;" class="MyprofilePic">
@@ -502,42 +505,58 @@
         var uImage = localStorage.getItem("image");
         console.log(localStorage);
         //go back to the log in page if no username of image is found
-        if(!uname || !uImage){
+        if (!uname || !uImage) {
             window.location.href = "/";
         }
         //set the profile photo if image exists
-        if(uImage != "none"){
+        if (uImage != "none") {
             var changePhoto = document.querySelector(".MyprofilePic");
             changePhoto.src = `../serverImages/${uImage}`;
             //$(".MyprofilePic").attr('src',`../serverImages/${uImage}`)
         }
-        else{
+        else {
 
         }
 
         $(".MyuserName").text(uname)
 
         $.ajax({
-            url:"/getUsers",
-            method:"GET",
-            success:function(data){
-                console.log(data)
+            url: "/getUsers",
+            method: "GET",
+            success: function (data) {
+                var userNav = document.querySelector(".userNav");
+                for (i of data.usersList) {
+                    divCont = document.createElement("div")
+                    imageCont = "image/blank-profile-picture-973460_1280.png"
+                    if (i.imageSrc != "none") {
+                        imageCont = `../serverImages/${i.imageSrc}`
+                    }
+                    divCont.innerHTML = `<div class="myUserList d-flex flex-direction-row align-items-center justify-content-center">
+                            <img src=${imageCont} style="width: 45px; height: 45px; border-radius: 1000px;
+                    margin-right: 10px; margin-left: 10px; cursor: pointer;">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                                class="userNameList">
+                                ${i.username}
+                            </div>
+                        </div>`
+
+                    userNav.append(divCont)
+                }
+                var allUserList = document.querySelectorAll(".myUserList");
+                //Set the background of all the users in the userlist
+                for (elem of allUserList) {
+                    elem.addEventListener("click", function (e) {
+                        var copyUser = document.querySelectorAll(".myUserList");
+                        for (n of copyUser) {
+                            n.style = ""
+                        }
+                        this.style.backgroundColor = "rgb(120, 167, 192)";
+
+                    })
+                }
             }
         })
 
-        var allUserList = document.querySelectorAll(".myUserList");
-
-        //Set the background of all the users in the userlist
-        for (elem of allUserList) {
-            elem.addEventListener("click", function (e) {
-                var copyUser = document.querySelectorAll(".myUserList");
-                for (n of copyUser) {
-                    n.style = ""
-                }
-                this.style.backgroundColor = "rgb(120, 167, 192)";
-
-            })
-        }
 
         var allMessageDate = document.querySelectorAll(".messageDate");
 
@@ -563,45 +582,45 @@
         }
 
         //change profile picture event listener
-        $(".changeProf").click(function(e){
+        $(".changeProf").click(function (e) {
             $(".pickProf").click();
 
         })
-        $(".pickProf").change(function(e){
+        $(".pickProf").change(function (e) {
             const file = (e.target.files)[0]
-            if(file){
+            if (file) {
                 const formData = new FormData();
-                formData.append('profilePic',file);
-                formData.append('username',uname);
+                formData.append('profilePic', file);
+                formData.append('username', uname);
 
                 $.ajax({
-                    url:"/uploadProfPic",
-                    method:"POST",
-                    data:formData,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
+                    url: "/uploadProfPic",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
                         console.log(data)
-                        localStorage.setItem("image",data.src);
+                        localStorage.setItem("image", data.src);
                         console.log(localStorage);
                     },
-                    error:function(xhr, textStatus, errorThrown){
-                        if(xhr.status == 400){
+                    error: function (xhr, textStatus, errorThrown) {
+                        if (xhr.status == 400) {
                             console.log(xhr.responseJSON.message)
                         }
                     }
                 })
             }
-            else{
+            else {
                 console.log("none")
             }
-            
+
         })
 
         //LogOut Event Listener
-        $(".logOutBut").click(function(e){
-            localStorage.setItem("image","");
-            localStorage.setItem("username","");
+        $(".logOutBut").click(function (e) {
+            localStorage.setItem("image", "");
+            localStorage.setItem("username", "");
             window.location.href = "/";
         })
 
