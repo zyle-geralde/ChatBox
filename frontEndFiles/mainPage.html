@@ -287,7 +287,7 @@
                         POITUYJAKMLCkdlakd
                     </div>
                 </div>
-                <button class="btn btn-danger" style="margin-left: 10px; margin-right: 10px;">
+                <button class="btn btn-danger logOutBut" style="margin-left: 10px; margin-right: 10px;">
                     ⛣
                 </button>
             </div>
@@ -577,6 +577,13 @@
                 console.log("none")
             }
             
+        })
+
+        //LogOut Event Listener
+        $(".logOutBut").click(function(e){
+            localStorage.setItem("image","");
+            localStorage.setItem("username","");
+            window.location.href = "/";
         })
 
 
