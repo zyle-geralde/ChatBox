@@ -184,6 +184,13 @@
             margin-right: 10px;
             font-size: 20px;
             cursor: pointer;
+            transition: 0.1s;
+        }
+        .sendCont:hover{
+            font-size: 22px;
+        }
+        .sendCont:active{
+            font-size: 20px;
         }
 
         .hiddenFile {
@@ -494,9 +501,11 @@
         var uname = localStorage.getItem("username");
         var uImage = localStorage.getItem("image");
         console.log(localStorage);
+        //go back to the log in page if no username of image is found
         if(!uname || !uImage){
             window.location.href = "/";
         }
+        //set the profile photo if image exists
         if(uImage != "none"){
             var changePhoto = document.querySelector(".MyprofilePic");
             changePhoto.src = `../serverImages/${uImage}`;
@@ -508,8 +517,17 @@
 
         $(".MyuserName").text(uname)
 
+        $.ajax({
+            url:"/getUsers",
+            method:"GET",
+            success:function(data){
+                console.log(data)
+            }
+        })
+
         var allUserList = document.querySelectorAll(".myUserList");
 
+        //Set the background of all the users in the userlist
         for (elem of allUserList) {
             elem.addEventListener("click", function (e) {
                 var copyUser = document.querySelectorAll(".myUserList");
@@ -517,6 +535,7 @@
                     n.style = ""
                 }
                 this.style.backgroundColor = "rgb(120, 167, 192)";
+
             })
         }
 
@@ -543,9 +562,9 @@
             md.innerText = `${formatedDate},  ${formatedTime}`
         }
 
+        //change profile picture event listener
         $(".changeProf").click(function(e){
             $(".pickProf").click();
-
 
         })
         $(".pickProf").change(function(e){
@@ -585,6 +604,8 @@
             localStorage.setItem("username","");
             window.location.href = "/";
         })
+
+
 
 
     })
