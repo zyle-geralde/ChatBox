@@ -370,9 +370,23 @@
         console.log(`Connected with ${socket.id}`)
     })
 
+    var unamesock = localStorage.getItem("username");
+    if(unamesock){
+        socket.emit("join",unamesock)
+    }
+
     //receiving message from the server
-    socket.on("receivemess",function(message){
-        console.log(message)
+    socket.on("private_message",function(data){
+        var messageCont = document.querySelector(".messageCont")
+        createElem = document.createElement("div")
+        createElem.setAttribute("class","messageRight")
+        createElem.innerHTML = `<div class="messageDiv">
+                            ${data.message}
+                        </div>
+                        <div class="messageDate">
+                            Jul 8, 2024, 18:00
+                        </div>`
+        messageCont.append(createElem)              
     })
 
     $(document).ready(function (e) {
@@ -441,8 +455,6 @@
             var receiverN = document.querySelector(".chatName");
             var postN = document.querySelector(".sendInputCont");
 
-            //Sending event to server
-            socket.emit("message",postN.value, 10)
 
             if (postN.value.trim() == "" || senderN.innerText == "" || receiverN.innerText == "") {
                 return
@@ -479,6 +491,8 @@
                 },
                 success: function (data) {
                     console.log(data)
+                     //Sending event to server
+                    socket.emit('private_message', { to: receiverN.innerText,message:postN.value });
                     postN.value = ""
                 },
                 error: function (xhr, textStatus, errorThrown) {

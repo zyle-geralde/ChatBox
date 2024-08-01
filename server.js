@@ -58,10 +58,12 @@ app.use("/postMessage",require("./routers/api/postMessage.js"))
 
 app.use("/",require("./routers/LogInSign.js"));
 
+const users = {}
 // Socket.IO connection handling
 io.on('connection', (socket) => {
     console.log("New Socket ID: ",socket.id);
-    socket.on("message",(post,num)=>{
+    //This is just practice
+    /*socket.on("message",(post,num)=>{
         console.log(`Received: ${post}:${num}`)
 
         //send message back to all client including the sender
@@ -69,22 +71,31 @@ io.on('connection', (socket) => {
 
         //send message back to all the client not including the sender
         io.emit("receivemess",post);
+    })*/
+
+    //Triggers When user joins
+    socket.on("join",function(username){
+        users[username] = socket.id
+        socket.username = username
+        console.log(`${username} joined`)
     })
 
-    // Handle incoming messages
-    /*socket.on('message', (message) => {
-        console.log('Received:', message);
-        // Echo the message back to the client
-        socket.emit('message', `Server received: ${message}`);
-    });
 
-    // Handle disconnection
-    socket.on('disconnect', () => {
-        console.log('Socket.IO client disconnected.');
-    });
+    socket.on('private_message', (data) => {
+        const { to, message } = data;
+        const recipientSocketId = users[to];
+        if (recipientSocketId) {
+            io.to(recipientSocketId).emit('private_message', {
+                from: socket.username,
+                message
+            });
+        }
 
-    // Send a welcome message to the new client
-    socket.emit('message', 'Welcome to the Socket.IO server!');*/
+        socket.emit('private_message', {
+            from: socket.username,
+            message
+        });
+    });
 });
 
 
