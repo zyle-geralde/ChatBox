@@ -551,6 +551,7 @@
                 },
                 success: function (data) {
                     console.log(data)
+                    postN.value = ""
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     if (xhr.status == 400) {
