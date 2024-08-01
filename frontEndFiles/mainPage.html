@@ -293,7 +293,7 @@
                     <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
                     margin-right: 10px; margin-left: 10px; cursor: pointer;" class="profilePic">
                     <div
-                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;">
+                        class = "chatName"style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;">
                         POITUYJAKMLCkdlakd
                     </div>
                 </div>
@@ -502,7 +502,7 @@
                             n.style = ""
                         }
                         this.style.backgroundColor = "rgb(120, 167, 192)";
-
+                        $(".chatName").text(this.lastElementChild.innerText)
                     })
                 }
             }
