@@ -46,6 +46,7 @@ app.use("/signup",require("./routers/api/signUpRoute.js"));
 app.use("/login",require("./routers/api/logInRoute.js"));
 app.use("/uploadProfPic",require("./routers/api/uploadProf.js"));
 app.use("/getUsers",require("./routers/api/getUsers.js"));
+app.use("/postMessage",require("./routers/api/postMessage.js"))
 
 app.use("/",require("./routers/LogInSign.js"));
 

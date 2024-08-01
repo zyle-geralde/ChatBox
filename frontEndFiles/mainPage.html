@@ -292,9 +292,9 @@
                     style="overflow:hidden;width: 850px;">
                     <img src="image/blank-profile-picture-973460_1280.png" style="width: 45px; height: 45px; border-radius: 1000px;
                     margin-right: 10px; margin-left: 10px; cursor: pointer;" class="profilePic">
-                    <div
-                        class = "chatName"style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;">
-                        POITUYJAKMLCkdlakd
+                    <div class="chatName"
+                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;">
+
                     </div>
                 </div>
                 <button class="btn btn-danger logOutBut" style="margin-left: 10px; margin-right: 10px;">
@@ -325,7 +325,7 @@
                 margin-right: 10px; cursor: pointer;" class="MyprofilePic">
                     <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-size: 20px;"
                         class="MyuserName">
-                        POITUYlksdfjklsajgklsndfjanslfdjljljasdklf
+
                     </div>
                 </div>
             </div>
@@ -503,12 +503,62 @@
                         }
                         this.style.backgroundColor = "rgb(120, 167, 192)";
                         $(".chatName").text(this.lastElementChild.innerText)
+                        var changeProf = document.querySelector(".profilePic");
+                        changeProf.src = this.firstElementChild.src
                     })
                 }
             }
         })
 
+        //sending messages to the database
+        $(".sendCont").click(function (e) {
+            var senderN = document.querySelector(".MyuserName")
+            var receiverN = document.querySelector(".chatName");
+            var postN = document.querySelector(".sendInputCont");
 
+            if (postN.value.trim() == "" || senderN.innerText == "" || receiverN.innerText == "") {
+                return
+            }
+
+            //Generate current date and time
+
+            var now = new Date();
+
+            var localDate = {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+
+            }
+
+            var localTime = {
+                minute: "2-digit",
+                hour: "2-digit",
+                hour12: false//24 hour format removed
+            }
+
+            var formatedDate = now.toLocaleDateString("en-US", localDate);
+            var formatedTime = now.toLocaleTimeString("en-US", localTime);
+
+            $.ajax({
+                url: "/postMessage",
+                method: "POST",
+                data: {
+                    post: postN.value,
+                    postDate:`${formatedDate}, ${formatedTime}`,
+                    sender:senderN.innerText,
+                    receiver:receiverN.innerText
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (xhr.status == 400) {
+                        console.log(xhr.responseJSON.message);
+                    }
+                }
+            })
+        })
         var allMessageDate = document.querySelectorAll(".messageDate");
 
         for (md of allMessageDate) {
