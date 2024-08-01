@@ -277,6 +277,8 @@
             }
         }
     </style>
+    <!--Include this code for sockets-->
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
@@ -350,95 +352,6 @@
                         </div>
                     </div>
 
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printing
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printin
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printing and
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem Ipsum is
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
                 </div>
 
                 <div class="inputCont">
@@ -451,6 +364,17 @@
     </div>
 </body>
 <script>
+    const socket = io();
+    //Check the connection of server
+    socket.on("connect",function(){
+        console.log(`Connected with ${socket.id}`)
+    })
+
+    //receiving message from the server
+    socket.on("receivemess",function(message){
+        console.log(message)
+    })
+
     $(document).ready(function (e) {
         var uname = localStorage.getItem("username");
         var uImage = localStorage.getItem("image");
@@ -512,9 +436,13 @@
 
         //sending messages to the database
         $(".sendCont").click(function (e) {
+            
             var senderN = document.querySelector(".MyuserName")
             var receiverN = document.querySelector(".chatName");
             var postN = document.querySelector(".sendInputCont");
+
+            //Sending event to server
+            socket.emit("message",postN.value, 10)
 
             if (postN.value.trim() == "" || senderN.innerText == "" || receiverN.innerText == "") {
                 return

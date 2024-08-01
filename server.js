@@ -6,8 +6,16 @@ const cors = require("cors");
 const exp = require('constants');
 const mongoose = require("mongoose");
 const connectDB = require("./controllers/connection.js")
+const http = require('http');
+const socketIo = require('socket.io');
 
 const PORT = process.env.PORT || 3500;
+
+// Create an HTTP server and attach it to the Express app
+const server = http.createServer(app);
+
+// Create a Socket.IO server and attach it to the HTTP server
+const io = socketIo(server);
 
 connectDB.connectFunc();
 
@@ -50,6 +58,35 @@ app.use("/postMessage",require("./routers/api/postMessage.js"))
 
 app.use("/",require("./routers/LogInSign.js"));
 
+// Socket.IO connection handling
+io.on('connection', (socket) => {
+    console.log("New Socket ID: ",socket.id);
+    socket.on("message",(post,num)=>{
+        console.log(`Received: ${post}:${num}`)
+
+        //send message back to all client including the sender
+        //socket.broadcast.emit("receivemess",post);
+
+        //send message back to all the client not including the sender
+        io.emit("receivemess",post);
+    })
+
+    // Handle incoming messages
+    /*socket.on('message', (message) => {
+        console.log('Received:', message);
+        // Echo the message back to the client
+        socket.emit('message', `Server received: ${message}`);
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('Socket.IO client disconnected.');
+    });
+
+    // Send a welcome message to the new client
+    socket.emit('message', 'Welcome to the Socket.IO server!');*/
+});
+
 
 app.use(function(err,req,res,next){
     console.log(`Error: ${err.message}`);
@@ -58,8 +95,9 @@ app.use(function(err,req,res,next){
 
 mongoose.connection.once("open",function(){
     console.log("Connected to Database")
-    app.listen(PORT,function(){
-        console.log("..Listening")
+    server.listen(PORT,function(){
+        console.log(`Server is listening on http://localhost:${PORT}`);
     })
 })
+
 
