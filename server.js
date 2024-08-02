@@ -19,7 +19,7 @@ const io = socketIo(server);
 
 connectDB.connectFunc();
 
-originList = ["http://localhost:3500",'http://127.0.0.1:5500','http://localhost:3000','http://localhost:5000'];
+originList = ["http://localhost:3500",'http://127.0.0.1:5500','http://localhost:3000','http://localhost:5000','https://chatbox-arob.onrender.com'];
 corseOption = {
     origin:function(origin,callback){
         if(originList.includes(origin) || !origin){
