@@ -170,6 +170,7 @@
             flex: 1;
             overflow-y: auto;
             scrollbar-width: thin;
+            position: relative;
         }
 
         .fileUpload {
@@ -250,6 +251,21 @@
             ellipsis; 
             color: rgb(254, 250, 246); 
             font-size: 17px;
+        }
+
+        /* Spinner Container Styles */
+
+        .spinner-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
         @media (max-width:425px) {
@@ -343,7 +359,11 @@
             </div>
             <div class="rightHandler">
                 <div class="messageCont">
-
+                    <div id="spinner-container" class="spinner-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
                 <div style="display: flex; flex-direction: row; justify-content: center;color: white;
                 font-size: 12px; opacity: 0; transition: 0.1s;" class = "typingdiv"></div>
@@ -415,6 +435,18 @@
     }
 
     $(document).ready(function (e) {
+        /*Spinner code start*/
+        function showSpinner() {
+            $(".spinner-container").css("display", "flex");
+        }
+
+        // Function to hide the spinner
+        function hideSpinner() {
+            $(".spinner-container").css("display", "none");
+        }
+
+        hideSpinner()
+
         var uname = localStorage.getItem("username");
         var uImage = localStorage.getItem("image");
         console.log(localStorage);
@@ -461,6 +493,9 @@
                 //Set the background of all the users in the userlist
                 for (elem of allUserList) {
                     elem.addEventListener("click", function (e) {
+                        var messageCont = document.querySelector(".messageCont");
+                        messageCont.innerHTML = ""
+                        showSpinner();
                         var copyUser = document.querySelectorAll(".myUserList");
                         for (n of copyUser) {
                             n.style = ""
@@ -478,8 +513,6 @@
                                 receiver: this.lastElementChild.innerText
                             },
                             success: function (data) {
-                                var messageCont = document.querySelector(".messageCont");
-                                messageCont.innerHTML = ""
                                 for (i of data.allPost) {
                                     createElem = document.createElement("div")
                                     if (i.sender == uname) {
@@ -496,6 +529,7 @@
                                         </div>`
                                     messageCont.append(createElem)
                                 }
+                                hideSpinner();
                             }
                         })
                     })
