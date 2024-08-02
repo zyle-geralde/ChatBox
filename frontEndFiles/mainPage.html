@@ -243,6 +243,14 @@
             background-color: white;
             border-radius: 1000px;
         }
+        .userNameList{
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: 
+            ellipsis; 
+            color: rgb(254, 250, 246); 
+            font-size: 17px;
+        }
 
         @media (max-width:425px) {
             .AppName {
@@ -273,7 +281,9 @@
             }
 
             .userNameList {
-                display: none;
+                color: transparent;
+                font-size: 1px;
+                /*display: none;*/
             }
         }
     </style>
@@ -282,7 +292,7 @@
 </head>
 
 <body>
-    <div class="mianCont" style="min-height: 290px;">
+    <div class="mianCont" style="min-height: 300px;">
         <div class="d-flex flex-direction-row" style="width: 100%; height: 60px; border-top-right-radius: 10px;">
             <div class="leftHandlerTop d-flex flex-direction-row justify-content-center">
                 <img src="./image/bear-6887694_1280.png"
@@ -334,25 +344,9 @@
             <div class="rightHandler">
                 <div class="messageCont">
 
-                    <div class="messageLeft">
-                        <div class="messageDiv">
-                            Lorem Ipsum is
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
-                    <div class="messageRight">
-                        <div class="messageDiv">
-                            Lorem Ipsum is simply dummy text of the
-                        </div>
-                        <div class="messageDate">
-                            Jul 8, 2024, 18:00
-                        </div>
-                    </div>
-
                 </div>
+                <div style="display: flex; flex-direction: row; justify-content: center;color: white;
+                font-size: 12px; opacity: 0; transition: 0.1s;" class = "typingdiv"></div>
 
                 <div class="inputCont">
                     <input type="text" class="form-control sendInputCont">
@@ -383,17 +377,17 @@
         var formatedTimeH = now.toLocaleTimeString("en-US", dateTimeHold.localTime);
         var messageCont = document.querySelector(".messageCont")
         createElem = document.createElement("div")
-        if(data.from == unamesock){
+        if (data.from == unamesock) {
             createElem.setAttribute("class", "messageRight")
         }
-        else{
+        else {
             createElem.setAttribute("class", "messageLeft")
         }
         createElem.innerHTML = `<div class="messageDiv">
                             ${data.message}
                         </div>
                         <div class="messageDate">
-                            ${ `${formatedDateH}, ${formatedTimeH}`}
+                            ${`${formatedDateH}, ${formatedTimeH}`}
                         </div>`
         messageCont.append(createElem)
     })
@@ -417,7 +411,7 @@
             hour: "2-digit",
             hour12: false//24 hour format removed
         }
-        return { "localDate": localDate, "localTime": localTime, "now":now}
+        return { "localDate": localDate, "localTime": localTime, "now": now }
     }
 
     $(document).ready(function (e) {
@@ -454,7 +448,7 @@
                     divCont.innerHTML = `<div class="myUserList d-flex flex-direction-row align-items-center justify-content-center">
                             <img src=${imageCont} style="width: 45px; height: 45px; border-radius: 1000px;
                     margin-right: 10px; margin-left: 10px; cursor: pointer;">
-                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(254, 250, 246); font-size: 17px;"
+                            <div style=""
                                 class="userNameList">
                                 ${i.username}
                             </div>
@@ -474,6 +468,35 @@
                         $(".chatName").text(this.lastElementChild.innerText)
                         var changeProf = document.querySelector(".profilePic");
                         changeProf.src = this.firstElementChild.src
+
+                        $.ajax({
+                            url: "/getPosts",
+                            method: "POST",
+                            data: {
+                                sender: uname,
+                                receiver: this.lastElementChild.innerText
+                            },
+                            success: function (data) {
+                                var messageCont = document.querySelector(".messageCont");
+                                messageCont.innerHTML = ""
+                                for (i of data.allPost) {
+                                    createElem = document.createElement("div")
+                                    if (i.sender == uname) {
+                                        createElem.setAttribute("class", "messageRight")
+                                    }
+                                    else {
+                                        createElem.setAttribute("class", "messageLeft")
+                                    }
+                                    createElem.innerHTML = `<div class="messageDiv">
+                                                ${i.post}
+                                            </div>
+                                        <div class="messageDate">
+                                            ${i.postDate}
+                                        </div>`
+                                    messageCont.append(createElem)
+                                }
+                            }
+                        })
                     })
                 }
             }
@@ -509,7 +532,7 @@
                     console.log(data)
                     //Sending event to server
                     dateTimeSock = getDate()
-                    socket.emit('private_message', { to: receiverN.innerText, message: postN.value,dateRel: dateTimeSock });
+                    socket.emit('private_message', { to: receiverN.innerText, message: postN.value, dateRel: dateTimeSock });
                     postN.value = ""
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -556,6 +579,24 @@
                 console.log("none")
             }
 
+        })
+
+        //is typing feature
+        $(".sendInputCont").on("input",function(e){
+            if(this.value){
+                socket.emit("typing",{"message":`${uname} is typing`,"receiver":$(".chatName").text()})
+            }
+        })
+        //receive message
+        socket.on("typing",(data)=>{
+            var typ = document.querySelector(".typingdiv")
+            if(typ.style.opacity == 0){
+                typ.style.opacity = 1
+                $(".typingdiv").text(data.message)
+                setTimeout(() => {
+                    typ.style.opacity = 0
+                }, 2000);
+            }
         })
 
         //LogOut Event Listener

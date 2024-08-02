@@ -55,6 +55,7 @@ app.use("/login",require("./routers/api/logInRoute.js"));
 app.use("/uploadProfPic",require("./routers/api/uploadProf.js"));
 app.use("/getUsers",require("./routers/api/getUsers.js"));
 app.use("/postMessage",require("./routers/api/postMessage.js"))
+app.use("/getPosts",require("./routers/api/getPost.js"))
 
 app.use("/",require("./routers/LogInSign.js"));
 
@@ -98,6 +99,14 @@ io.on('connection', (socket) => {
             dateRel
         });
     });
+
+    socket.on('typing',(data)=>{
+        const {message, receiver} = data;
+        const recipientId = users[receiver]
+        if(recipientId){
+            io.to(recipientId).emit('typing',{"message":message})
+        }
+    })
 });
 
 
