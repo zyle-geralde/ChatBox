@@ -366,28 +366,59 @@
 <script>
     const socket = io();
     //Check the connection of server
-    socket.on("connect",function(){
+    socket.on("connect", function () {
         console.log(`Connected with ${socket.id}`)
     })
 
     var unamesock = localStorage.getItem("username");
-    if(unamesock){
-        socket.emit("join",unamesock)
+    if (unamesock) {
+        socket.emit("join", unamesock)
     }
 
     //receiving message from the server
-    socket.on("private_message",function(data){
+    socket.on("private_message", function (data) {
+        dateTimeHold = data.dateRel
+        var now = new Date(dateTimeHold.now)
+        var formatedDateH = now.toLocaleDateString("en-US", dateTimeHold.localDate);
+        var formatedTimeH = now.toLocaleTimeString("en-US", dateTimeHold.localTime);
         var messageCont = document.querySelector(".messageCont")
         createElem = document.createElement("div")
-        createElem.setAttribute("class","messageRight")
+        if(data.from == unamesock){
+            createElem.setAttribute("class", "messageRight")
+        }
+        else{
+            createElem.setAttribute("class", "messageLeft")
+        }
         createElem.innerHTML = `<div class="messageDiv">
                             ${data.message}
                         </div>
                         <div class="messageDate">
-                            Jul 8, 2024, 18:00
+                            ${ `${formatedDateH}, ${formatedTimeH}`}
                         </div>`
-        messageCont.append(createElem)              
+        messageCont.append(createElem)
     })
+
+    //getting Date time for posts
+    function getDate() {
+
+        //Generate current date and time
+
+        var now = new Date();
+
+        var localDate = {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+
+        }
+
+        var localTime = {
+            minute: "2-digit",
+            hour: "2-digit",
+            hour12: false//24 hour format removed
+        }
+        return { "localDate": localDate, "localTime": localTime, "now":now}
+    }
 
     $(document).ready(function (e) {
         var uname = localStorage.getItem("username");
@@ -450,7 +481,7 @@
 
         //sending messages to the database
         $(".sendCont").click(function (e) {
-            
+
             var senderN = document.querySelector(".MyuserName")
             var receiverN = document.querySelector(".chatName");
             var postN = document.querySelector(".sendInputCont");
@@ -460,39 +491,25 @@
                 return
             }
 
-            //Generate current date and time
+            dateTime = getDate()
 
-            var now = new Date();
-
-            var localDate = {
-                year: "numeric",
-                month: "short",
-                day: "numeric"
-
-            }
-
-            var localTime = {
-                minute: "2-digit",
-                hour: "2-digit",
-                hour12: false//24 hour format removed
-            }
-
-            var formatedDate = now.toLocaleDateString("en-US", localDate);
-            var formatedTime = now.toLocaleTimeString("en-US", localTime);
+            var formatedDate = dateTime.now.toLocaleDateString("en-US", dateTime.localDate);
+            var formatedTime = dateTime.now.toLocaleTimeString("en-US", dateTime.localTime);
 
             $.ajax({
                 url: "/postMessage",
                 method: "POST",
                 data: {
                     post: postN.value,
-                    postDate:`${formatedDate}, ${formatedTime}`,
-                    sender:senderN.innerText,
-                    receiver:receiverN.innerText
+                    postDate: `${formatedDate}, ${formatedTime}`,
+                    sender: senderN.innerText,
+                    receiver: receiverN.innerText
                 },
                 success: function (data) {
                     console.log(data)
-                     //Sending event to server
-                    socket.emit('private_message', { to: receiverN.innerText,message:postN.value });
+                    //Sending event to server
+                    dateTimeSock = getDate()
+                    socket.emit('private_message', { to: receiverN.innerText, message: postN.value,dateRel: dateTimeSock });
                     postN.value = ""
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -504,26 +521,6 @@
         })
         var allMessageDate = document.querySelectorAll(".messageDate");
 
-        for (md of allMessageDate) {
-            var now = new Date();
-
-            var localDate = {
-                year: "numeric",
-                month: "short",
-                day: "numeric"
-
-            }
-
-            var localTime = {
-                minute: "2-digit",
-                hour: "2-digit",
-                hour12: false//24 hour format removed
-            }
-
-            var formatedDate = now.toLocaleDateString("en-US", localDate);
-            var formatedTime = now.toLocaleTimeString("en-US", localTime);
-            md.innerText = `${formatedDate},  ${formatedTime}`
-        }
 
         //change profile picture event listener
         $(".changeProf").click(function (e) {

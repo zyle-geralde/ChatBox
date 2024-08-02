@@ -82,18 +82,20 @@ io.on('connection', (socket) => {
 
 
     socket.on('private_message', (data) => {
-        const { to, message } = data;
+        const { to, message,dateRel } = data;
         const recipientSocketId = users[to];
         if (recipientSocketId) {
             io.to(recipientSocketId).emit('private_message', {
                 from: socket.username,
-                message
+                message,
+                dateRel
             });
         }
 
         socket.emit('private_message', {
             from: socket.username,
-            message
+            message,
+            dateRel
         });
     });
 });
