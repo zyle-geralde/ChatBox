@@ -62,7 +62,7 @@ app.use("/",require("./routers/LogInSign.js"));
 const users = {}
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-    console.log("New Socket ID: ",socket.id);
+    console.log("New Socket ID: ",socket.id);        
     //This is just practice
     /*socket.on("message",(post,num)=>{
         console.log(`Received: ${post}:${num}`)
@@ -79,6 +79,7 @@ io.on('connection', (socket) => {
         users[username] = socket.id
         socket.username = username
         console.log(`${username} joined`)
+        console.log(users)
     })
 
 
@@ -107,6 +108,18 @@ io.on('connection', (socket) => {
             io.to(recipientId).emit('typing',{"message":message})
         }
     })
+
+    socket.on('disconnect', () => {
+        // Remove user from users object when disconnected
+        for (const [userId, socketId] of Object.entries(users)) {
+          if (socketId === socket.id) {
+            delete users[userId];
+            break;
+          }
+        }
+        console.log(users)
+    });
+    
 });
 
 
