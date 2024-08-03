@@ -89,6 +89,7 @@ io.on('connection', (socket) => {
         if (recipientSocketId) {
             io.to(recipientSocketId).emit('private_message', {
                 from: socket.username,
+                mine:"false",
                 message,
                 dateRel
             });
@@ -96,6 +97,7 @@ io.on('connection', (socket) => {
 
         socket.emit('private_message', {
             from: socket.username,
+            mine:"true",
             message,
             dateRel
         });
@@ -105,7 +107,9 @@ io.on('connection', (socket) => {
         const {message, receiver} = data;
         const recipientId = users[receiver]
         if(recipientId){
-            io.to(recipientId).emit('typing',{"message":message})
+            io.to(recipientId).emit('typing',{"message":message,
+                from: socket.username,
+            })
         }
     })
 

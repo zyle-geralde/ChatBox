@@ -244,12 +244,13 @@
             background-color: white;
             border-radius: 1000px;
         }
-        .userNameList{
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: 
-            ellipsis; 
-            color: rgb(254, 250, 246); 
+
+        .userNameList {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow:
+                ellipsis;
+            color: rgb(254, 250, 246);
             font-size: 17px;
         }
 
@@ -366,7 +367,7 @@
                     </div>
                 </div>
                 <div style="display: flex; flex-direction: row; justify-content: center;color: white;
-                font-size: 12px; opacity: 0; transition: 0.1s;" class = "typingdiv"></div>
+                font-size: 12px; opacity: 0; transition: 0.1s;" class="typingdiv"></div>
 
                 <div class="inputCont">
                     <input type="text" class="form-control sendInputCont">
@@ -391,25 +392,49 @@
 
     //receiving message from the server
     socket.on("private_message", function (data) {
-        dateTimeHold = data.dateRel
-        var now = new Date(dateTimeHold.now)
-        var formatedDateH = now.toLocaleDateString("en-US", dateTimeHold.localDate);
-        var formatedTimeH = now.toLocaleTimeString("en-US", dateTimeHold.localTime);
-        var messageCont = document.querySelector(".messageCont")
-        createElem = document.createElement("div")
-        if (data.from == unamesock) {
-            createElem.setAttribute("class", "messageRight")
-        }
-        else {
-            createElem.setAttribute("class", "messageLeft")
-        }
-        createElem.innerHTML = `<div class="messageDiv">
+        var chatName = document.querySelector(".chatName")
+        if (data.from == chatName.innerText) {
+            dateTimeHold = data.dateRel
+            var now = new Date(dateTimeHold.now)
+            var formatedDateH = now.toLocaleDateString("en-US", dateTimeHold.localDate);
+            var formatedTimeH = now.toLocaleTimeString("en-US", dateTimeHold.localTime);
+            var messageCont = document.querySelector(".messageCont")
+            createElem = document.createElement("div")
+            if (data.from == unamesock) {
+                createElem.setAttribute("class", "messageRight")
+            }
+            else {
+                createElem.setAttribute("class", "messageLeft")
+            }
+            createElem.innerHTML = `<div class="messageDiv">
                             ${data.message}
                         </div>
                         <div class="messageDate">
                             ${`${formatedDateH}, ${formatedTimeH}`}
                         </div>`
-        messageCont.append(createElem)
+            messageCont.append(createElem)
+        }
+        else if(data.mine == "true" ){
+            dateTimeHold = data.dateRel
+            var now = new Date(dateTimeHold.now)
+            var formatedDateH = now.toLocaleDateString("en-US", dateTimeHold.localDate);
+            var formatedTimeH = now.toLocaleTimeString("en-US", dateTimeHold.localTime);
+            var messageCont = document.querySelector(".messageCont")
+            createElem = document.createElement("div")
+            if (data.from == unamesock) {
+                createElem.setAttribute("class", "messageRight")
+            }
+            else {
+                createElem.setAttribute("class", "messageLeft")
+            }
+            createElem.innerHTML = `<div class="messageDiv">
+                            ${data.message}
+                        </div>
+                        <div class="messageDate">
+                            ${`${formatedDateH}, ${formatedTimeH}`}
+                        </div>`
+            messageCont.append(createElem)
+        }
     })
 
     //getting Date time for posts
@@ -487,7 +512,7 @@
                         </div>`
 
                     userNav.append(divCont)
-                    
+
                 }
                 var allUserList = document.querySelectorAll(".myUserList");
                 //Set the background of all the users in the userlist
@@ -622,15 +647,18 @@
                 socket.emit("typing",{"message":`${uname} is typing`,"receiver":$(".chatName").text()})
             }
         })
+
         //receive message
-        socket.on("typing",(data)=>{
-            var typ = document.querySelector(".typingdiv")
-            if(typ.style.opacity == 0){
-                typ.style.opacity = 1
-                $(".typingdiv").text(data.message)
-                setTimeout(() => {
-                    typ.style.opacity = 0
-                }, 2000);
+        socket.on("typing", (data) => {
+            if(data.from == $(".chatName").text()){
+                var typ = document.querySelector(".typingdiv")
+                if (typ.style.opacity == 0) {
+                    typ.style.opacity = 1
+                    $(".typingdiv").text(data.message)
+                    setTimeout(() => {
+                        typ.style.opacity = 0
+                    }, 2000);
+                }
             }
         })
 
