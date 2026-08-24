@@ -47,6 +47,8 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(express.json());
 
+app.use(require("./middlewares/apiWrapper.js"));
+
 app.use(express.static(path.join(__dirname,"frontEndFiles")));
 app.use('/serverImages', express.static('serverImages'));
 
