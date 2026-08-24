@@ -217,7 +217,7 @@
                             console.log(xhr.responseJSON)
                         }
                         else if (xhr.status == 409) {
-                            $(".invLabel").text(xhr.responseJSON["Status 409"])
+                            $(".invLabel").text(xhr.responseJSON.error)
                             console.log(xhr.responseJSON);
                         }
                         hideSpinner();
@@ -244,7 +244,7 @@
                     success: function (data) {
                         $(".invLabel").text("")
                         var storeUname = $(".usernameInp").val();
-                        var storeImg = data.imageSrc;
+                        var storeImg = data.data.imageSrc;
 
                         localStorage.setItem("username",storeUname);
                         localStorage.setItem("image",storeImg);
@@ -256,10 +256,10 @@
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         if (xhr.status == 401) {
-                            $(".invLabel").text(xhr.responseJSON.message);
+                            $(".invLabel").text(xhr.responseJSON.error);
                         }
                         else if (xhr.status == 400) {
-                            console.log(xhr.responseJSON.Error);
+                            console.log(xhr.responseJSON.error);
                         }
                         hideSpinner();
                     }

@@ -4,20 +4,21 @@ const bcrypt = require("bcrypt");
 
 
 const signFunct = async function(req,res){
-    if(!req || ! req.body || !req.body.username || !req.body.password){
-        return res.status(400).json({"400":"Lack Parameters"})//400-bad request
+    const missing = req.api.missingFields(["username","password"]);
+    if(missing.length){
+        return res.api.fail(`Missing required fields: ${missing.join(", ")}`, 400);//400-bad request
     }
 
     try{
-        var uname = req.body.username
-        var pword = req.body.password
+        var uname = req.api.body.username
+        var pword = req.api.body.password
 
 
         //finding duplicates
         var foundUser = await userDB.findOne({username:uname}).exec();
 
         if(foundUser){
-            return res.status(409).json({"Status 409":"Username already exists"});//409 -> conflict
+            return res.api.fail("Username already exists", 409);//409 -> conflict
         }
 
 
@@ -31,10 +32,9 @@ const signFunct = async function(req,res){
             imageSrc:"none"
         })
 
-        res.status(201).json({"success":true})//resource created successfully
+        return res.api.success({}, 201);//resource created successfully
     }catch(err){
-        res.status(500);
-        return res.json({"message":err.message})
+        return res.api.fail(err.message, 500);
     }
 }
 
